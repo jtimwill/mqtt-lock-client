@@ -76,9 +76,13 @@ client.on('message', function (topic, message) {
 unlock();
 
 function publishTempPassword() {
-  temp_active = true;
   temp_password = randomstring.generate({ length: 5 });
-  publishSuccessMessage('Temp Password is: ' + temp_password );
+  if (temp_password === MAIN_PASSWORD)
+    publishTempPassword();
+  else {
+    temp_active = true;
+    publishSuccessMessage('Temp Password is: ' + temp_password );
+  }
 }
 
 function controlDoor(command, password) {
