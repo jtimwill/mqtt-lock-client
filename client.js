@@ -7,7 +7,7 @@ if ( !MAIN_PASSWORD || !IP )
 const { Log } = require('./sequelize');
 const mqtt = require('mqtt');
 const date = require('date-and-time');
-const client  = mqtt.connect('mqtt://' + IP); // ENV var
+const client  = mqtt.connect('mqtt://' + IP);
 
 const randomstring = require("randomstring");
 let temp_password;
