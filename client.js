@@ -37,6 +37,7 @@ const motor = new Gpio(10, {mode: Gpio.OUTPUT});
 const sensor = new Gpio(4, {
   mode: Gpio.INPUT,
   pullUpDown: Gpio.PUD_UP,
+  alert: true
 });
 
 button.glitchFilter(10000);
