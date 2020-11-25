@@ -44,7 +44,7 @@ button.glitchFilter(10000);
 
 sensor.on('alert', (level) => {
   console.log("Sensor Level: " + level);
-  if (level === 0) {
+  if (level === 1) {
     if (system_state === 1)
       system_state = 2;
     if (system_state === 3) {
