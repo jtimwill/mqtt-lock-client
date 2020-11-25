@@ -84,9 +84,6 @@ client.on('message', function (topic, message) {
     console.log("Parsing Error: " + error);
   }
 
-  console.log("PUBLSIH ALERT");
-  publishAlertMessage();
-
   console.log("Command Received: " + data["command"]);
 
   if (data["password"] === MAIN_PASSWORD || (data["password"] === temp_password && temp_active)) {
