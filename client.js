@@ -7,6 +7,9 @@ if ( !MAIN_PASSWORD || !IP )
 const { Log } = require('./sequelize');
 const mqtt = require('mqtt');
 const date = require('date-and-time');
+const Gpio = require('pigpio').Gpio;
+
+
 const client  = mqtt.connect('mqtt://' + IP);
 
 const randomstring = require("randomstring");
@@ -30,9 +33,30 @@ const RESPONSES = {
 // Variables:
 let system_state = 1;
 // Set pins
-// 1. Servo pin
-// 2. LED pin
-// 3. Sensor PIN
+const motor = new Gpio(6, {mode: Gpio.OUTPUT});
+const sensor = new Gpio(4, {
+  mode: Gpio.INPUT,
+  pullUpDown: Gpio.PUD_UP,
+});
+sensor.on('interrupt', (level) => {
+  console.log("Sensor Level: " + level);
+  // Update system state
+});
+
+let pulseWidth = 1000;
+let increment = 100;
+
+setInterval(() => {
+  motor.servoWrite(pulseWidth);
+
+  pulseWidth += increment;
+  if (pulseWidth >= 2000) {
+    increment = -100;
+  } else if (pulseWidth <= 1000) {
+    increment = 100;
+  }
+}, 1000);
+
 client.on('connect', function() {
   client.subscribe('command', function(error) {
     if (!error) {

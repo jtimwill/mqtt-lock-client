@@ -13,6 +13,7 @@
     "date-and-time": "^0.14.1",
     "mosca": "^2.8.3",
     "mqtt": "^4.2.5",
+    "pigpio": "^3.2.4",
     "randomstring": "^1.1.5",
     "sequelize": "^6.3.5",
     "sqlite3": "^5.0.0"
