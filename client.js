@@ -39,7 +39,9 @@ const sensor = new Gpio(4, {
   pullUpDown: Gpio.PUD_UP,
 });
 
-sensor.on('interrupt', (level) => {
+button.glitchFilter(10000);
+
+sensor.on('alert', (level) => {
   console.log("Sensor Level: " + level);
   if (level === 0) {
     if (system_state === 1)
