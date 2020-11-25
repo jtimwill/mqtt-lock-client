@@ -33,29 +33,37 @@ const RESPONSES = {
 // Variables:
 let system_state = 1;
 // Set pins
-const motor = new Gpio(6, {mode: Gpio.OUTPUT});
+const motor = new Gpio(10, {mode: Gpio.OUTPUT});
 const sensor = new Gpio(4, {
   mode: Gpio.INPUT,
   pullUpDown: Gpio.PUD_UP,
 });
+
 sensor.on('interrupt', (level) => {
   console.log("Sensor Level: " + level);
-  // Update system state
+  if (level === 0) {
+    if (system_state === 1)
+      system_state = 2;
+    if (system_state === 3) {
+      system_state = 4;
+      publishAlertMessage();
+    }
+  } else {
+    if (system_state === 2)
+      system_state = 1;
+    if (system_state === 4)
+      system_state = 3;
+  }
 });
 
-let pulseWidth = 1000;
-let increment = 100;
-
-setInterval(() => {
-  motor.servoWrite(pulseWidth);
-
-  pulseWidth += increment;
-  if (pulseWidth >= 2000) {
-    increment = -100;
-  } else if (pulseWidth <= 1000) {
-    increment = 100;
-  }
-}, 1000);
+function unlock() {
+  motor.servoWrite(2000);
+  console.log("Move motor to unlock position");
+}
+function lock() {
+  motor.servoWrite(1000);
+  console.log("Move motor to lock position");
+}
 
 client.on('connect', function() {
   client.subscribe('command', function(error) {
@@ -190,13 +198,6 @@ function publishErrorMessage(details) {
 
 function publishSystemState() {
   client.publish('systemState', JSON.stringify(STATES[system_state]));
-}
-
-function unlock() {
-  // Do stuff
-}
-function lock() {
-  // Do stuff
 }
 
 // Heartbeat
