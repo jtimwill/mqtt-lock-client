@@ -42,8 +42,6 @@ const sensor = new Gpio(4, {
   alert: true
 });
 
-button.glitchFilter(10000);
-
 sensor.on('alert', (level) => {
   console.log("Sensor Level: " + level);
   if (level === 1) {
