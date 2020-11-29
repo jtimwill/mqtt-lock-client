@@ -8,31 +8,33 @@ const { Log } = require('./sequelize');
 const mqtt = require('mqtt');
 const date = require('date-and-time');
 const Gpio = require('pigpio').Gpio;
-
-
-const client  = mqtt.connect('mqtt://' + IP);
-
+const fs = require('fs');
+const path = require('path');
+const options = {
+  port: 8883,
+  host: IP,
+  rejectUnauthorized: false,
+  ca: fs.readFileSync(path.join(__dirname, '/ca.crt')),
+  protocol: 'mqtts'
+};
+const client  = mqtt.connect(options);
 const randomstring = require("randomstring");
 let temp_password;
 let temp_active = false;
-
 const STATES = {
   1 : { "system state" : "good", "lock state" : "unlocked", "door state" : "closed" },
   2 : { "system state" : "good", "lock state" : "unlocked", "door state" : "open" },
   3 : { "system state" : "good", "lock state" : "locked", "door state" : "closed" },
   4 : { "system state" : "error", "lock state" : "locked", "door state" : "open" },
 };
-
-// 2. set responses
 const RESPONSES = {
   "success" : { "response" : "200 Sucess" },
   "error" : { "response" : "400 Client Error" },
   "danger" : { "response" : "500 System Failure" }
 };
-
-// Variables:
 let system_state = 1;
-// Set pins
+
+// ****** RASPBERRY PI SETUP START ******
 const motor = new Gpio(10, {mode: Gpio.OUTPUT});
 const sensor = new Gpio(4, {
   mode: Gpio.INPUT,
@@ -67,7 +69,9 @@ function lock() {
   motor.servoWrite(1000);
   console.log("Move motor to lock position");
 }
+// ****** RASPBERRY PI SETUP END ******
 
+// Conenct to MQTT broker
 client.on('connect', function() {
   client.subscribe('command', function(error) {
     if (!error) {
@@ -76,6 +80,7 @@ client.on('connect', function() {
   });
 });
 
+// Handle user commands
 client.on('message', function (topic, message) {
   let data = { "command" : "", "password" : ""};
   try {
@@ -105,18 +110,9 @@ client.on('message', function (topic, message) {
 });
 
 
-unlock();
+unlock(); // Initialize door to unlocked state
 
-function publishTempPassword() {
-  temp_password = randomstring.generate({ length: 5 });
-  if (temp_password === MAIN_PASSWORD)
-    publishTempPassword();
-  else {
-    temp_active = true;
-    publishSuccessMessage('Temp Password is: ' + temp_password );
-  }
-}
-
+// Manage door state based on user command
 function controlDoor(command, password) {
   let response;
 
@@ -151,6 +147,7 @@ function controlDoor(command, password) {
   client.publish('response', JSON.stringify(response));
 }
 
+// Update database log table
 async function updateLog(command) {
   const state_data = STATES[system_state];
   try {
@@ -164,17 +161,26 @@ async function updateLog(command) {
   } catch (error) {
     console.log("ERROR: " + error);
   }
-
 }
 
+// Response helper functions
 async function publishLog() {
-  // Use sequelize to get the 10 most recent rows
   try {
     const query = await Log.findAndCountAll({ limit: 10 });
     publishSuccessMessage("Sucessful Query");
     client.publish('response', JSON.stringify(query));
   } catch(error) {
     client.publish('response', "Query Failed");
+  }
+}
+
+function publishTempPassword() {
+  temp_password = randomstring.generate({ length: 5 });
+  if (temp_password === MAIN_PASSWORD)
+    publishTempPassword();
+  else {
+    temp_active = true;
+    publishSuccessMessage('Temp Password is: ' + temp_password );
   }
 }
 
@@ -200,8 +206,7 @@ function publishSystemState() {
   client.publish('systemState', JSON.stringify(STATES[system_state]));
 }
 
-// Heartbeat
+// Send Heartbeat
 setInterval(() => {
   publishSystemState();
-    // console.log('Message Sent');
 }, 30000);
