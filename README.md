@@ -9,6 +9,11 @@ The basic technology stack is:
 * Sequelize + SQLite (database)
 * Node.js (run-time environment)
 
+The hardware consists of:
+* Raspberry PI: https://www.amazon.com/gp/product/B01C6FFNY4
+* Door Sensor: https://www.amazon.com/gp/product/B0154PTDFI
+* Servo Motor: https://www.amazon.com/gp/product/B07NQJ1VZ2
+
 ## Project Setup
 1. Install Node.js: https://nodejs.org/
 2. Download project files
