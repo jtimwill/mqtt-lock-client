@@ -28,7 +28,7 @@ const STATES = {
   4 : { "system state" : "error", "lock state" : "locked", "door state" : "open" },
 };
 const RESPONSES = {
-  "success" : { "response" : "200 Sucess" },
+  "success" : { "response" : "200 Success" },
   "error" : { "response" : "400 Client Error" },
   "danger" : { "response" : "500 System Failure" }
 };
