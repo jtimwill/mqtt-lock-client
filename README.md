@@ -26,12 +26,12 @@ The basic technology stack is:
 
 ## Project Architecture
 <p align="center">
-  <img alt="Image of App Structure" src="https://raw.github.com/jtimwill/diet-api/master/images/diet-api-diagram.png" />
+  <img alt="Image of App Structure" src="https://raw.githubusercontent.com/jtimwill/mqtt-lock-client/master/pictures/architecture.png" />
 </p>
 
 ## Entity Relationship Diagram
 <p align="center">
-  <img alt="Image of ERD" src="https://raw.github.com/jtimwill/diet-api/master/images/node-diet-erd.png"/>
+  <img alt="Image of ERD" src="https://raw.githubusercontent.com/jtimwill/mqtt-lock-client/master/pictures/erd.png"/>
 </p>
 
 ## References
