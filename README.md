@@ -34,6 +34,16 @@ The basic technology stack is:
   <img alt="Image of ERD" src="https://raw.githubusercontent.com/jtimwill/mqtt-lock-client/master/pictures/erd.png"/>
 </p>
 
+## System States
+<p align="center">
+  <img alt="Image of the System States" src="https://raw.githubusercontent.com/jtimwill/mqtt-lock-client/master/pictures/states.png"/>
+</p>
+
+## Protocol Design
+<p align="center">
+  <img alt="Image the Protocol Design" src="https://raw.githubusercontent.com/jtimwill/mqtt-lock-client/master/pictures/protocol.png"/>
+</p>
+
 ## References
 * Architecture
   * https://www.youtube.com/watch?v=Cs2vmAqSBHs&t=202s
