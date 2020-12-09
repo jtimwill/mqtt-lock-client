@@ -75,14 +75,11 @@ The hardware consists of:
   * https://github.com/moscajs/mosca
   * https://github.com/moscajs/mosca/wiki/Mosca-basic-usage
   * https://github.com/moscajs/mosca/wiki/Authentication-&-Authorization
-  * https://medium.com/@alifabdullah/setting-up-private-mqtt-broker-using-mosca-in-node-js-c61a3c74f952
   * https://www.npmjs.com/package/aedes
 * MQTT Client
   * https://github.com/adafruit/Adafruit_MQTT_Library
   * https://www.eclipse.org/paho/
-  * https://www.arduino.cc/reference/en/libraries/mqtt-client/
   * https://learn.adafruit.com/bluefruit-le-connect/mqtt
-  * https://www.arduino.cc/reference/en/libraries/mqtt-client/
   * https://www.arduino.cc/reference/en/libraries/mqtt-client/
   * https://bitbucket.org/amotzek/arduino/src/fab21e1e7785fe9473d83107048d4431c8fd25a9/src/main/cpp/MQTTClient/examples/PublishLightAndDark/  * PublishLightAndDark.ino?at=master
 * Topic Design
