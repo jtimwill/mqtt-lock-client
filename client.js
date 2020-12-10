@@ -92,11 +92,11 @@ client.on('message', function (topic, message) {
   if (data["password"] === MAIN_PASSWORD || (data["password"] === temp_password && temp_active)) {
     if (data["command"] == "lock" || data["command"] == "unlock") {
       controlDoor(data["command"], data["password"]);
-    } else if (data["command"] == "get state") {
+    } else if (data["command"] == "get state" && data["password"] === MAIN_PASSWORD) {
       publishSystemState();
-    } else if (data["command"] == "get temp"){
+    } else if (data["command"] == "get temp" && data["password"] === MAIN_PASSWORD){
       publishTempPassword();
-    } else if (data["command"] == "get logs") {
+    } else if (data["command"] == "get logs" && data["password"] === MAIN_PASSWORD) {
       publishLog();
     } else {
       publishErrorMessage('Invalid Command');
